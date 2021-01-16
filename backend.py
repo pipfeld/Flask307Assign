@@ -1,7 +1,11 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
+from flask_cors import CORS
+import random
+import string
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def hello_world():
@@ -66,10 +70,12 @@ def get_users():
          return subdict
       return users
    elif request.method == 'POST':
+      letters = string.ascii_lowercase
       userToAdd = request.get_json()
+      userToAdd['id'] = ''.join(random.choice(letters) for i in range(6))
       users['users_list'].append(userToAdd)
-      resp = jsonify(success=True)
-      #resp.status_code = 200 #optionally, you can always set a response code. 
+      resp = jsonify(userToAdd)
+      resp.status_code = 201 #optionally, you can always set a response code. 
       # 200 is the default code for a normal response
       return resp
    elif request.method == 'DELETE':
