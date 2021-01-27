@@ -80,12 +80,14 @@ def get_users():
       return resp
    elif request.method == 'DELETE':
       deleteUser = request.get_json()
-      subdict = {'users_list' : []}
-      for user in users['users_list']:
-         if user != deleteUser:
-            subdict['users_list'].append(user)
-      users['users_list'] = subdict['users_list']
-      resp = jsonify(success=True)
+      user = User(deleteUser)
+      resp = jsonify(user.remove()), 200
+      #subdict = {'users_list' : []}
+      #for user in users['users_list']:
+      #   if user != deleteUser:
+      #      subdict['users_list'].append(user)
+      #users['users_list'] = subdict['users_list']
+      #resp = jsonify(success=True)
       return resp
 
 

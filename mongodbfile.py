@@ -57,7 +57,7 @@ class User(Model):
         return users
 
     def delete_by_id(self, id):
-        users = list(remove(self))
+        users = list(self.collection.remove({"id": id}))
         for user in users:
             user["_id"] = str(user["_id"])
         return users
